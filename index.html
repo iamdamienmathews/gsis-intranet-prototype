@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GSIS Infobase - School Intranet</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 2px solid #333;
+            margin-bottom: 20px;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .nav-menu {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .nav-menu a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+        
+        .section {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+        
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 20px;
+        }
+        
+        /* Twitter Feed Styles */
+        .twitter-section {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .twitter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .twitter-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .twitter-actions button {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #1DA1F2;
+            color: white;
+            cursor: pointer;
+        }
+        
+        .tweet-compose {
+            display: flex;
+            margin-bottom: 15px;
+            border: 1px solid #e1e8ed;
+            border-radius: 8px;
+            padding: 10px;
+            background-color: #f8f9fa;
+        }
+        
+        .tweet-input {
+            flex: 1;
+            border: none;
+            resize: none;
+            height: 40px;
+            padding: 10px;
+            font-family: inherit;
+            background-color: transparent;
+        }
+        
+        .post-btn {
+            background-color: #1DA1F2;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 5px 15px;
+            cursor: pointer;
+        }
+        
+        .tweet {
+            padding: 10px;
+            border-bottom: 1px solid #e1e8ed;
+        }
+        
+        .tweet-user {
+            font-weight: bold;
+            color: #1DA1F2;
+        }
+        
+        .tweet-time {
+            font-size: 12px;
+            color: #657786;
+        }
+        
+        .subscriptions {
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px solid #e1e8ed;
+        }
+        
+        .tag {
+            background-color: #e1e8ed;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            display: inline-block;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
+        
+        /* News Feed Styles */
+        .news-tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin: 10px 0;
+        }
+        
+        .news-tab {
+            padding: 8px 15px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+        
+        .news-tab.active {
+            border-bottom: 2px solid #0066cc;
+            font-weight: bold;
+        }
+        
+        .news-feed {
+            display: none;
+        }
+        
+        .news-feed.active {
+            display: block;
+        }
+        
+        .news-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .news-date {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .news-headline {
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        .feed-settings {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 8px;
+            background-color: #f8f8f8;
+            border-radius: 4px;
+        }
+        
+        .feed-settings select {
+            margin: 0 10px;
+            padding: 4px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .feed-settings button {
+            padding: 4px 10px;
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        /* House Points */
+        .house-points {
+            display: flex;
+            justify-content: space-between;
+            text-align: center;
+        }
+        
+        .house-column {
+            flex: 1;
+        }
+        
+        .house-score {
+            font-size: 28px;
+            font-weight: bold;
+        }
+        
+        .house-name {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* Research */
+        .search-bar {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            margin: 10px 0;
+        }
+        
+        /* Latest Releases */
+        .release-item {
+            display: flex;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            background-color: #f8f8f8;
+        }
+        
+        .release-item.podcast {
+            border-left: 4px solid #8E44AD;
+        }
+        
+        .release-item.newsletter {
+            border-left: 4px solid #16A085;
+        }
+        
+        .release-icon {
+            font-size: 24px;
+            margin-right: 15px;
+        }
+        
+        .release-content {
+            flex: 1;
+        }
+        
+        .release-type {
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #555;
+        }
+        
+        .release-title {
+            font-weight: bold;
+            margin: 5px 0;
+        }
+        
+        .release-date {
+            font-size: 12px;
+            color: #777;
+            margin-bottom: 10px;
+        }
+        
+        .release-actions {
+            display: flex;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        
+        .action-btn {
+            background-color: #f0f0f0;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .play-btn {
+            background-color: #8E44AD;
+            color: white;
+        }
+        
+        .podcast-player {
+            margin-top: 15px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            padding: 10px;
+        }
+        
+        .progress-bar {
+            height: 5px;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background-color: #8E44AD;
+        }
+        
+        /* Current Poll */
+        .poll-option {
+            margin-bottom: 10px;
+        }
+        
+        .submit-btn {
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 300px;
+            height: 100%;
+            background-color: white;
+            box-shadow: -2px 0 5px rgba(0,0,0,0.2);
+            transition: right 0.3s ease;
+            z-index: 1000;
+            padding: 20px;
+        }
+        
+        .sidebar.active {
+            right: 0;
+        }
+        
+        .sidebar-menu {
+            list-style-type: none;
+            margin-top: 50px;
+        }
+        
+        .sidebar-menu li {
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+        
+        .close-menu {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            z-index: 999;
+        }
+        
+        /* VOS Section */
+        .vos-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: none;
+        }
+        
+        .vos-tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin: 20px 0;
+        }
+        
+        .vos-tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+        
+        .vos-tab.active {
+            border-bottom: 2px solid #0066cc;
+            font-weight: bold;
+        }
+        
+        .vos-tab-content {
+            display: none;
+        }
+        
+        .vos-tab-content.active {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .form-group select,
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .form-group textarea {
+            min-height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Menu -->
+    <div class="sidebar">
+        <span class="close-menu">&times;</span>
+        <ul class="sidebar-menu">
+            <li>HOME</li>
+            <li>LAST DROP PROJECT</li>
+            <li>GALLERY</li>
+            <li>BLOG</li>
+            <li>LATEST INSCHOOL</li>
+            <li>TAHR READS</li>
+            <li>- (DIGITAL LIBRARY)</li>
+            <li id="vos-menu-item">- VOICE OF THE STUDENT (VOS)</li>
+            <li>- PREFECT SPOTLIGHT</li>
+        </ul>
+    </div>
+    
+    <!-- Overlay for sidebar -->
+    <div class="overlay"></div>
+    
+    <!-- VOS Section -->
+    <div class="vos-section" id="vos-section">
+        <div class="section-title">VOICE OF THE STUDENT (VOS)</div>
+        
+        <div class="vos-tabs">
+            <div class="vos-tab active" data-tab="feedback">Submit Feedback</div>
+            <div class="vos-tab" data-tab="query">Submit Query</div>
+            <div class="vos-tab" data-tab="poll">Student Polls</div>
+        </div>
+        
+        <div class="vos-content">
+            <!-- Feedback Form -->
+            <div class="vos-tab-content active" id="feedback-content">
+                <h3>Share Your Feedback</h3>
+                <form class="vos-form">
+                    <div class="form-group">
+                        <label>Topic/Theme:</label>
+                        <select>
+                            <option>School Facilities</option>
+                            <option>Academic Programs</option>
+                            <option>Extracurricular Activities</option>
+                            <option>Cafeteria/Food</option>
+                            <option>School Events</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Your Feedback:</label>
+                        <textarea placeholder="Share your thoughts, suggestions, or concerns..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Rate your experience (1-5):</label>
+                        <div class="rating">
+                            <span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span>
+                        </div>
+                    </div>
+                    <button type="button" class="submit-btn">Submit Feedback</button>
+                </form>
+            </div>
+            
+            <!-- Query Form -->
+            <div class="vos-tab-content" id="query-content">
+                <h3>Submit a Query</h3>
+                <form class="vos-form">
+                    <div class="form-group">
+                        <label>Department:</label>
+                        <select>
+                            <option>Administration</option>
+                            <option>Academics</option>
+                            <option>IT Support</option>
+                            <option>Student Affairs</option>
+                            <option>Library</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Subject:</label>
+                        <input type="text" placeholder="Brief subject of your query">
+                    </div>
+                    <div class="form-group">
+                        <label>Your Query:</label>
+                        <textarea placeholder="Enter your question or request..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Urgency:</label>
+                        <select>
+                            <option>Low - No rush</option>
+                            <option>Medium - Within a week</option>
+                            <option>High - Within 48 hours</option>
+                            <option>Urgent - ASAP</option>
+                        </select>
+                    </div>
+                    <button type="button" class="submit-btn">Submit Query</button>
+                </form>
+            </div>
+            
+            <!-- Poll Section -->
+            <div class="vos-tab-content" id="poll-content">
+                <h3>Current Poll: Library Hours Extension</h3>
+                <div class="poll-question">
+                    <p>Should the school library extend its opening hours until 8pm on weekdays?</p>
+                    <form class="poll-form" id="library-poll-form">
+                        <div class="poll-option">
+                            <input type="radio" id="vos-yes" name="library-poll" value="yes">
+                            <label for="vos-yes">Yes, it would be beneficial</label>
+                        </div>
+                        <div class="poll-option">
+                            <input type="radio" id="vos-no" name="library-poll" value="no">
+                            <label for="vos-no">No, current hours are sufficient</label>
+                        </div>
+                        <div class="poll-option">
+                            <input type="radio" id="vos-sometimes" name="library-poll" value="sometimes">
+                            <label for="vos-sometimes">Only on certain days (e.g., before exams)</label>
+                        </div>
+                        <div class="poll-option">
+                            <input type="radio" id="vos-undecided" name="library-poll" value="undecided">
+                            <label for="vos-undecided">Undecided</label>
+                        </div>
+                        <button type="button" class="submit-btn" id="vos-submit-poll">Submit Vote</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="container" id="main-container">
+        <header>
+            <div class="logo">GSIS INFOBASE</div>
+            <div class="nav-menu">
+                <a href="#" id="menuToggle">Menu</a>
+                <a href="#" id="homeLink">Home</a>
+            </div>
+        </header>
+        
+        <!-- Twitter Feed -->
+        <div class="twitter-section">
+            <div class="twitter-header">
+                <div class="section-title">TWITTER FEED</div>
+                <div class="twitter-actions">
+                    <button>Post Tweet</button>
+                    <button>Subscribe to Feeds</button>
+                </div>
+            </div>
+            <div class="tweet-compose">
+                <textarea placeholder="What's happening at GSIS?" class="tweet-input"></textarea>
+                <button class="post-btn">Tweet</button>
+            </div>
+            <div class="twitter-feed">
+                <div class="tweet">
+                    <div class="tweet-user">@science_club</div>
+                    <div class="tweet-content">Science fair project submissions due this Friday! Don't forget to include your research journal.</div>
+                    <div class="tweet-time">10 minutes ago</div>
+                </div>
+                <div class="tweet">
+                    <div class="tweet-user">@school_library</div>
+                    <div class="tweet-content">New books arrived today! Check out the latest additions to our fiction section.</div>
+                    <div class="tweet-time">1 hour ago</div>
+                </div>
+                <div class="tweet">
+                    <div class="tweet-user">@math_department</div>
+                    <div class="tweet-content">Math Olympiad training sessions start next Monday after school. Sign up sheet outside Room 302.</div>
+                    <div class="tweet-time">3 hours ago</div>
+                </div>
+            </div>
+            <div class="subscriptions">
+                <div style="font-weight:bold; margin-bottom:5px;">Your Subscriptions:</div>
+                <div>
+                    <span class="tag">#school_events</span>
+                    <span class="tag">#library</span>
+                    <span class="tag">#sports</span>
+                    <span class="tag">#academics</span>
+                    <span class="tag">+ Add New</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="grid-container">
+            <!-- Left Column -->
+            <div>
+                <!-- World News -->
+                <div class="section">
+                    <div class="section-title">RSS FEED: NEWS (WORLD)</div>
+                    <div class="news-tabs">
+                        <div class="news-tab active" data-news-tab="headlines">Headlines</div>
+                        <div class="news-tab" data-news-tab="sports">Sports</div>
+                    </div>
+                    
+                    <div class="news-feed active" id="headlines-feed">
+                        <div class="feed-settings">
+                            <label>Source:</label>
+                            <select id="news-source">
+                                <option value="wsj">Wall Street Journal</option>
+                                <option value="cnn">CNN</option>
+                                <option value="hindu">The Hindu</option>
+                            </select>
+                            <button id="refresh-news">Refresh</button>
+                        </div>
+                        <div id="headlines-content">
+                            <div class="news-item">
+                                <div class="news-date">April 4, 2025</div>
+                                <div class="news-headline">Global Climate Summit Reaches Agreement →</div>
+                            </div>
+                            <div class="news-item">
+                                <div class="news-date">April 3, 2025</div>
+                                <div class="news-headline">Tech Leaders Announce New Initiative →</div>
+                            </div>
+                            <div class="news-item">
+                                <div class="news-date">April 3, 2025</div>
+                                <div class="news-headline">Economic Growth Exceeds Expectations →</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="news-feed" id="sports-feed">
+                        <div class="feed-settings">
+                            <label>Sports Category:</label>
+                            <select id="sports-category">
+                                <option value="all">All Sports</option>
+                                <option value="football">Football</option>
+                                <option value="cricket">Cricket</option>
+                                <option value="tennis">Tennis</option>
+                            </select>
+                            <button id="refresh-sports">Refresh</button>
+                        </div>
+                        <div id="sports-content">
+                            <div class="news-item">
+                                <div class="news-date">April 4, 2025</div>
+                                <div class="news-headline">Champions League: Quarter-finals Results →</div>
+                            </div>
+                            <div class="news-item">
+                                <div class="news-date">April 3, 2025</div>
+                                <div class="news-headline">Olympic Preparations in Final Stages →</div>
+                            </div>
+                            <div class="news-item">
+                                <div class="news-date">April 2, 2025</div>
+                                <div class="news-headline">Tennis: Grand Slam Schedule Announced →</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- House Points -->
+                <div class="section">
+                    <div class="section-title">HOUSE POINTS</div>
+                    <div class="house-points">
+                        <div class="house-column">
+                            <div class="house-name">WIN</div>
+                            <div class="house-score">176</div>
+                        </div>
+                        <div class="house-column">
+                            <div class="house-name">SUM</div>
+                            <div class="house-score">152</div>
+                        </div>
+                        <div class="house-column">
+                            <div class="house-name">AUT</div>
+                            <div class="house-score">169</div>
+                        </div>
+                        <div class="house-column">
+                            <div class="house-name">SPR</div>
+                            <div class="house-score">172</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- School News -->
+                <div class="section">
+                    <div class="section-title">RSS FEED: NEWS (SCHOOL)</div>
+                    <div class="news-feed active">
+                        <div class="news-item">
+                            <div class="news-date">April 4, 2025</div>
+                            <div class="news-headline">Annual Science Fair Winners Announced →</div>
+                        </div>
+                        <div class="news-item">
+                            <div class="news-date">April 2, 2025</div>
+                            <div class="news-headline">School Debate Team Advances to Nationals →</div>
+                        </div>
+                        <div class="news-item">
+                            <div class="news-date">March 30, 2025</div>
+                            <div class="news-headline">Spring Concert Scheduled for Next Friday →</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Research -->
+                <div class="section">
+                    <div class="section-title">RESEARCH</div>
+                    <input type="text" class="search-bar" placeholder="SEARCH ARTICLES ON THE DIGITAL LIBRARY">
+                </div>
+            </div>
+            
+            <!-- Right Column -->
+            <div>
+                <!-- Current Poll -->
+                <div class="section">
+                    <div class="section-title">CURRENT POLL</div>
+                    <div style="padding: 10px;">
+                        <h4>Should the school library extend its opening hours until 8pm on weekdays?</h4>
+                        <form id="main-poll-form">
+                            <div class="poll-option">
+                                <input type="radio" id="main-yes" name="main-poll" value="yes">
+                                <label for="main-yes">Yes, it would be beneficial</label>
+                            </div>
+                            <div class="poll-option">
+                                <input type="radio" id="main-no" name="main-poll" value="no">
+                                <label for="main-no">No, current hours are sufficient</label>
+                            </div>
+                            <div class="poll-option">
+                                <input type="radio" id="main-sometimes" name="main-poll" value="sometimes">
+                                <label for="main-sometimes">Only on certain days</label>
+                            </div>
+                            <div class="poll-option">
+                                <input type="radio" id="main-undecided" name="main-poll" value="undecided">
+                                <label for="main-undecided">Undecided</label>
+                            </div>
+                            <button type="button" class="submit-btn" id="main-submit-poll">Vote</button>
+                        </form>
+                        <div style="margin-top:10px; text-align:right;">
+                            <a href="#" style="color:#0066cc; text-decoration:none;">View Results</a> | 
+                            <a href="#" id="go-to-vos" style="color:#0066cc; text-decoration:none;">More Polls</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Latest Releases -->
+                <div class="section">
+                    <div class="section-title">LATEST RELEASES</div>
+                    <div style="padding: 10px 0;">
+                        <!-- Podcast -->
+                        <div class="release-item podcast">
+                            <div class="release-icon">🎙️</div>
+                            <div class="release-content">
+                                <div class="release-type">TAHR TALKS PODCAST</div>
+                                <div class="release-title">Episode #42: Student Entrepreneurship</div>
+                                <div class="release-date">Released: April 2, 2025</div>
+                                <div class="release-description">
+                                    Join host Mira Shah as she interviews three student entrepreneurs who launched successful businesses while still in school.
+                                </div>
+                                <div class="release-actions">
+                                    <button class="action-btn play-btn">▶️ Play</button>
+                                    <button class="action-btn">Download</button>
+                                    <button class="action-btn">Subscribe</button>
+                                </div>
+                                <div class="podcast-player" style="display: none;">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill"></div>
+                                    </div>
+                                    <div style="display:flex; align-items:center; gap:10px;">
+                                        <button>⏮️</button>
+                                        <button class="pause-btn">⏸️</button>
+                                        <button>⏭️</button>
+                                        <div style="margin-left:auto; font-size:12px;">00:00 / 36:45</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Newsletter -->
+                        <div class="release-item newsletter">
+                            <div class="release-icon">📰</div>
+                            <div class="release-content">
+                                <div class="release-type">TAHR TIMES NEWSLETTER</div>
+                                <div class="release-title">April Edition: Spring Activities Special</div>
+                                <div class="release-date">Published: April 1, 2025</div>
+                                <div class="release-description">
+                                    This month's edition focuses on upcoming spring activities, student achievements, and environmental initiatives.
+                                </div>
+                                <div class="release-actions">
+                                    <button class="action-btn">Read Online</button>
+                                    <button class="action-btn">Download PDF</button>
+                                    <button class="action-btn">Previous Editions</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="text-align:right; margin-top:10px;">
+                            <a href="#" style="color:#0066cc; text-decoration:none;">View all previous episodes and publications →</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Subscriptions -->
+                <div class="section">
+                    <div class="section-title">UPDATES ON SUBSCRIPTIONS</div>
+                    <ul style="padding-left:25px; margin:10px 0;">
+                        <li>Britannica</li>
+                        <li>Oxford Gang</li>
+                        <li>Wired</li>
+                        <li>etc.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sidebar menu functionality
+            const menuToggle = document.getElementById('menuToggle');
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.overlay');
+            const closeBtn = document.querySelector('.close-menu');
+            
+            menuToggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                sidebar.classList.add('active');
+                overlay.style.display = 'block';
+            });
+            
+            closeBtn.addEventListener('click', function() {
+                sidebar.classList.remove('active');
+                overlay.style.display = 'none';
+            });
+            
+            overlay.addEventListener('click', function() {
+                sidebar.classList.remove('active');
+                overlay.style.display = 'none';
+            });
+            
+            // VOS Menu functionality
+            const vosMenuItem = document.getElementById('vos-menu-item');
+            const vosSection = document.getElementById('vos-section');
+            const mainContainer = document.getElementById('main-container');
+            
+            vosMenuItem.addEventListener('click', function() {
+                sidebar.classList.remove('active');
+                overlay.style.display = 'none';
+                mainContainer.style.display = 'none';
+                vosSection.style.display = 'block';
+            });
+            
+            // Home button functionality
+            const homeLink = document.getElementById('homeLink');
+            
+            homeLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                vosSection.style.display = 'none';
+                mainContainer.style.display = 'block';
+            });
+            
+            // VOS Tabs functionality
+            const vosTabs = document.querySelectorAll('.vos-tab');
+            const vosContents = document.querySelectorAll('.vos-tab-content');
+            
+            vosTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const target = this.getAttribute('data-tab');
+                    
+                    vosTabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    vosContents.forEach(content => content.classList.remove('active'));
+                    document.getElementById(target + '-content').classList.add('active');
+                });
+            });
+            
+            // News tabs functionality
+            const newsTabs = document.querySelectorAll('.news-tab');
+            const newsFeeds = document.querySelectorAll('.news-feed');
+            
+            newsTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const target = this.getAttribute('data-news-tab');
+                    
+                    newsTabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    newsFeeds.forEach(feed => feed.classList.remove('active'));
+                    document.getElementById(target + '-feed').classList.add('active');
+                });
+            });
+            
+            // Go to VOS polls from main poll
+            const goToVosBtn = document.getElementById('go-to-vos');
+            
+            goToVosBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                mainContainer.style.display = 'none';
+                vosSection.style.display = 'block';
+                
+                vosTabs.forEach(t => t.classList.remove('active'));
+                document.querySelector('[data-tab="poll"]').classList.add('active');
+                
+                vosContents.forEach(content => content.classList.remove('active'));
+                document.getElementById('poll-content').classList.add('active');
+            });
+            
+            // Podcast player functionality
+            const playBtn = document.querySelector('.play-btn');
+            const podcastPlayer = document.querySelector('.podcast-player');
+            const progressFill = document.querySelector('.progress-fill');
+            
+            if (playBtn) {
+                playBtn.addEventListener('click', function() {
+                    if (podcastPlayer.style.display === 'none' || !podcastPlayer.style.display) {
+                        podcastPlayer.style.display = 'block';
+                        this.textContent = '⏸️ Pause';
+                        
+                        // Simulate playing progress
+                        let progress = 0;
+                        const interval = setInterval(function() {
+                            progress += 1;
+                            if (progress > 100) {
+                                clearInterval(interval);
+                                return;
+                            }
+                            progressFill.style.width = progress + '%';
+                        }, 300);
+                    } else {
+                        podcastPlayer.style.display = 'none';
+                        this.textContent = '▶️ Play';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
